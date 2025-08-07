@@ -11,30 +11,34 @@
 
 <form th:action="@{/transaction/save}" method="post" th:object="${transaction}" class="row g-3">
 
-
     <div class="col-md-6">
         <label class="form-label">Mã giao dịch</label>
-        <input type="text" class="form-control" th:field="*{id}" placeholder="Nhập mã giao dịch (nếu có)"/>
+        <input  class="form-control" th:field="*{id}" placeholder="Nhập mã giao dịch (nếu có)"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Ngày giao dịch (dd-MM-yyyy)</label>
         <input type="text" class="form-control" th:field="*{transaction_day}" placeholder="dd-MM-yyyy"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('transaction_day')}" th:errors="*{transaction_day}"></div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Loại</label>
         <input type="text" class="form-control" th:field="*{type}"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Giá</label>
         <input type="number" class="form-control" th:field="*{price}"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Diện tích</label>
         <input type="number" class="form-control" th:field="*{area}"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('area')}" th:errors="*{area}"></div>
     </div>
 
     <div class="col-md-6">
@@ -42,6 +46,7 @@
         <select class="form-select" th:field="*{customer}" required>
             <option th:each="c : ${customer}" th:value="${c.id}" th:text="${c.name}"></option>
         </select>
+        <div class="text-danger" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"></div>
     </div>
 
     <div class="col-12">
@@ -49,6 +54,7 @@
         <a class="btn btn-secondary ms-2" th:href="@{/transaction}">Quay lại danh sách</a>
     </div>
 </form>
+
 
 </body>
 </html>

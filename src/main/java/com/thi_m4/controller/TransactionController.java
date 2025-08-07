@@ -4,9 +4,11 @@ package com.thi_m4.controller;
 import com.thi_m4.model.Transaction;
 import com.thi_m4.repository.CustomerRepository;
 import com.thi_m4.service.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +38,21 @@ public class TransactionController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Transaction transaction){
+    public String save(@Valid @ModelAttribute Transaction transaction,
+                       BindingResult bindingResult,
+                       Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customer", customerRepository.findAll());
+            return "transaction/create";
+        }
+
+
+        if (transaction.getId() == null || transaction.getId().isEmpty()) {
+            String newId = transactionService.generateNewId();
+            transaction.setId(newId);
+        }
+
         transactionService.save(transaction);
         return "redirect:/transaction";
     }

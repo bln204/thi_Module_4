@@ -11,5 +11,5 @@ public interface TransactionService {
     void save(Transaction transaction);
     void deleteById(String id);
     List<Transaction> search(String customerName, String type);
-
+    String generateNewId();
 }

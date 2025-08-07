@@ -42,4 +42,24 @@ public class TransactionServiceImpl implements TransactionService{
     public List<Transaction> search(String customerName, String type) {
         return transactionRepository.findByCustomer_NameContainingAndTypeContaining(customerName, type);
     }
+
+    public String generateNewId() {
+        List<Transaction> all = transactionRepository.findAll();
+        int maxId = 0;
+
+        for (Transaction t : all) {
+            try {
+                String rawId = t.getId().replace("MGD-", "");
+                int num = Integer.parseInt(rawId);
+                if (num > maxId) {
+                    maxId = num;
+                }
+            } catch (NumberFormatException e) {
+
+            }
+        }
+
+        int newIdNum = maxId + 1;
+        return String.format("MGD-%03d", newIdNum);
+    }
 }
